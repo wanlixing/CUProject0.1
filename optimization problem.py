@@ -37,10 +37,6 @@ def findMaxSkew(mu,sigma,x,ell,cash,Q,vx,dt):
     p_up = (np.exp(mu*dt)-d)/(u-d)
     p_dn = 1-p_up
 
-    #p_buy = p*s
-    #p_sell = p*(1-s)
-    #price_buy =
-
     # Scenario S1 & S4:
     if(cash+u*x*Q<ell or cash+d*x*Q<ell):
         return -1
@@ -52,12 +48,12 @@ def findMaxSkew(mu,sigma,x,ell,cash,Q,vx,dt):
 
         lower1 = (ell-cash+0.5*vx-x*(u*Q-u+1))/(2*vx) # S3
         lower2 = (ell-cash+0.5*vx-x*(d*Q-d+1))/(2*vx) # S6
-        lower = min(lower1,lower2)
+        lower = max(lower1,lower2)
 
         if(upper<lower or upper<0 or lower>1): return -1
         else:
             upper = min(upper,1)
-            lower = min(lower,0)
+            lower = max(lower,0)
 
             #  we have to: max -4*vx*(s^2) + (4*V-2*X+2*X*exp(mu*t))*s
             #  s = -b/2a
